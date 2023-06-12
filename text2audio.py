@@ -42,16 +42,16 @@ def text2audio(text, spd=5, pit=5, vol=5, per=2):
     return b''.join(lst)
 
 
-@click.command()
-@click.option('--text', '-t', default='你是不是真的好呀，我叫老王，你好！', help='The text from stdin.')
-@click.option('--from_file', '-f', help='The text from file.')
-@click.option('--result', '-r', default='text2audio/default.wav', help='The result file.')
-@click.option('--speedch/--no-speedch', default=False, help='Speedch or not.')
-@click.option('--speedch_app', default='mpv', help='Speedch app, e.g. "mpv".')
-@click.option('--spd', default=5, help='The speed. [0-9]')
-@click.option('--pit', default=5, help='The pitch. [0-9]')
-@click.option('--vol', default=5, help='The volume. [0-9]')
-@click.option('--per', default=0, help='The person. [0,1,3,4]')
+# @click.command()
+# @click.option('--text', '-t', default='你是不是真的好呀，我叫老王，你好！', help='The text from stdin.')
+# @click.option('--from_file', '-f', help='The text from file.')
+# @click.option('--result', '-r', default='text2audio/default.wav', help='The result file.')
+# @click.option('--speedch/--no-speedch', default=False, help='Speedch or not.')
+# @click.option('--speedch_app', default='mpv', help='Speedch app, e.g. "mpv".')
+# @click.option('--spd', default=5, help='The speed. [0-9]')
+# @click.option('--pit', default=5, help='The pitch. [0-9]')
+# @click.option('--vol', default=5, help='The volume. [0-9]')
+# @click.option('--per', default=0, help='The person. [0,1,3,4]')
 def run(text, from_file, result, speedch, speedch_app, spd, pit, vol, per):
     if text is None and from_file is None:
         raise Exception("Please give a option text or from_file!")

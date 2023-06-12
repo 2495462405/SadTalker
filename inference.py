@@ -29,10 +29,24 @@ def main(args):
     ref_eyeblink = args.ref_eyeblink
     ref_pose = args.ref_pose
 
+    #text2audio parameters
+    text = args.text
+    from_file = args.from_file
+    video_path = args.video_path
+    speedch = args.speedch
+    speedch_app = args.speedch_app
+    spd = args.spd
+    pit = args.pit
+    vol = args.vol
+    per = args.per
+
     current_root_path = os.path.split(sys.argv[0])[0]
 
     sadtalker_paths = init_path(args.checkpoint_dir, os.path.join(current_root_path, 'src/config'), args.size, args.old_version, args.preprocess)
 
+    #text2audio
+    text2audio.run(text, from_file, video_path, speedch, speedch_app, spd, pit, vol, per)
+    
     #init model
     preprocess_model = CropAndExtract(sadtalker_paths, device)
 
@@ -97,15 +111,8 @@ def main(args):
     
 if __name__ == '__main__':
 
-    try:
-        text2audio.run(None, None, 'text2audio/default.wav', False, 'mpv')
-    except Exception as ex:
-        print(ex)
-        raise
-        sys.exit(1)
-
     parser = ArgumentParser()  
-    parser.add_argument("--driven_audio", default='./text2audio/default.wav', help="path to driven audio")
+    parser.add_argument("--driven_audio", default='./text2audio_result/default.wav', help="path to driven audio")
     parser.add_argument("--source_image", default='./examples/source_image/full_body_4.png', help="path to source image")
     parser.add_argument("--ref_eyeblink", default=None, help="path to reference video providing eye blinking")
     parser.add_argument("--ref_pose", default=None, help="path to reference video providing pose")
@@ -118,7 +125,7 @@ if __name__ == '__main__':
     parser.add_argument('--input_yaw', nargs='+', type=int, default=None, help="the input yaw degree of the user ")
     parser.add_argument('--input_pitch', nargs='+', type=int, default=None, help="the input pitch degree of the user")
     parser.add_argument('--input_roll', nargs='+', type=int, default=None, help="the input roll degree of the user")
-    parser.add_argument('--enhancer',  type=str, default=None, help="Face enhancer, [gfpgan, RestoreFormer]")
+    parser.add_argument('--enhancer',  type=str, default='gfpgan', help="Face enhancer, [gfpgan, RestoreFormer]")
     parser.add_argument('--background_enhancer',  type=str, default=None, help="background enhancer, [realesrgan]")
     parser.add_argument("--cpu", dest="cpu", action="store_true") 
     parser.add_argument("--face3dvis", action="store_true", help="generate 3d face and 3d landmarks") 
@@ -141,6 +148,17 @@ if __name__ == '__main__':
     parser.add_argument('--camera_d', type=float, default=10.)
     parser.add_argument('--z_near', type=float, default=5.)
     parser.add_argument('--z_far', type=float, default=15.)
+
+    # text2audio parameters
+    parser.add_argument('--text', '-t', default='我叫老王，你好！很高兴认识你，我可以帮你解决很多问题哦！', help='The text from stdin.')
+    parser.add_argument('--from_file', '-f',  help='The text from file.')
+    parser.add_argument('--video_path', '-r', default='text2audio_result/default.wav', help='The result file.')
+    parser.add_argument('--speedch', default=False, help='Speedch or not.')
+    parser.add_argument('--speedch_app', default='mpv', help='Speedch app, e.g. "mpv".')
+    parser.add_argument('--spd', default=5, help='The speed. [0-9]')
+    parser.add_argument('--pit', default=5, help='The pitch. [0-9]')
+    parser.add_argument('--vol', default=5, help='The volume. [0-9]')
+    parser.add_argument('--per', default=0, help='The person. [0,1,3,4]')
 
     args = parser.parse_args()
 
