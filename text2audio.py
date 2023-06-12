@@ -51,7 +51,7 @@ def text2audio(text, spd=5, pit=5, vol=5, per=2):
 @click.option('--spd', default=5, help='The speed. [0-9]')
 @click.option('--pit', default=5, help='The pitch. [0-9]')
 @click.option('--vol', default=5, help='The volume. [0-9]')
-@click.option('--per', default=2, help='The person. [0,1,3,4]')
+@click.option('--per', default=0, help='The person. [0,1,3,4]')
 def run(text, from_file, result, speedch, speedch_app, spd, pit, vol, per):
     if text is None and from_file is None:
         raise Exception("Please give a option text or from_file!")
