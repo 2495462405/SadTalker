@@ -3,6 +3,7 @@ import shutil
 import torch
 from time import  strftime
 import os, sys, time
+import text2audio
 from argparse import ArgumentParser
 
 from src.utils.preprocess import CropAndExtract
@@ -96,9 +97,16 @@ def main(args):
     
 if __name__ == '__main__':
 
+    try:
+        text2audio.run(None, None, 'text2audio/default.wav', False, 'mpv')
+    except Exception as ex:
+        print(ex)
+        raise
+        sys.exit(1)
+
     parser = ArgumentParser()  
-    parser.add_argument("--driven_audio", default='./examples/driven_audio/bus_chinese.wav', help="path to driven audio")
-    parser.add_argument("--source_image", default='./examples/source_image/full_body_1.png', help="path to source image")
+    parser.add_argument("--driven_audio", default='./text2audio/default.wav', help="path to driven audio")
+    parser.add_argument("--source_image", default='./examples/source_image/full_body_4.png', help="path to source image")
     parser.add_argument("--ref_eyeblink", default=None, help="path to reference video providing eye blinking")
     parser.add_argument("--ref_pose", default=None, help="path to reference video providing pose")
     parser.add_argument("--checkpoint_dir", default='./checkpoints', help="path to output")

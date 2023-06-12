@@ -43,7 +43,7 @@ def text2audio(text, spd=5, pit=5, vol=5, per=2):
 
 
 @click.command()
-@click.option('--text', '-t', help='The text from stdin.')
+@click.option('--text', '-t', default='你是不是真的好呀，我叫老王，你好！', help='The text from stdin.')
 @click.option('--from_file', '-f', help='The text from file.')
 @click.option('--result', '-r', default='text2audio/default.wav', help='The result file.')
 @click.option('--speedch/--no-speedch', default=False, help='Speedch or not.')
